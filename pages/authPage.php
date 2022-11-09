@@ -15,5 +15,4 @@ require_once "../logic/authHandler.php";
 
 </form>
 <?php
-echo $_POST["email"];
 require_once"../footer.php";

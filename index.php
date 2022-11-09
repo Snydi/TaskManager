@@ -1,3 +1,3 @@
 <?php
-header("Location: home.php", TRUE, 301);
+header("Location: pages/home.php", TRUE, 301);
 exit();

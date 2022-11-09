@@ -5,4 +5,6 @@ if(isset($_POST["submit"]))
 {
     $user = new AuthManager($_POST["email"], $_POST["password"]);
     $user->addUserToDB();
+    header("Location: ../pages/home.php");
 }
+
