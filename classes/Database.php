@@ -1,46 +1,27 @@
 <?php
-
 class Database
 {
-	private static $object = null;
-	private $pdo = null;
+    private static $instance=null;
+    private $connect;
 
-	protected function __construct()
-	{
-		$host = '';
-		$db = 'snydi_site_db';
-		$user = '';
-		$pass = '';
-		$charset = '';
-		$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-		$opt = [
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-			PDO::ATTR_EMULATE_PREPARES => false,
-		];
-		$this->pdo = new PDO($dsn, $user, $pass, $opt);
-	}
-
-	private function __wakeup() {}
-
-	private function __clone() {}
-
-	public static function getObject()
-	{
-		if (self::$object == null) {
-			self::$object = new static();
-		}
-		return self::$object;
-	}
-
-	static function connection()
-	{
-		return (static::getObject())->pdo;
-	}
-
-	static function prepare($expression)
-	{
-		return (static::connection())->prepare($expression);
-	}
-
+    protected function __construct()
+    {
+        $this->connect=mysqli_connect('localhost','root','','snydi_site_db');
+        mysqli_set_charset($this->connect,'utf8');
+    }
+    protected function __clone()
+    {
+    }
+    public function __wakeup() //must be protected, need to fix other things first
+    {
+        throw new \BadMethodCallException('Unable to deserialize database connection!');
+    }
+    public static function getInstance(): Database{
+        if (self::$instance===null)
+            self::$instance=new static();
+        return self::$instance;
+    }
+    public static function connection():\mysqli{
+        return static::getInstance()->connect;
+    }
 }
