@@ -2,6 +2,7 @@
 require_once "../header.php";
 require_once "../logic/Handler.php";
 ?>
+<h3 class="text-center"><?= $_GET["autherror"] ?? ''?></h3>
 <form class="container text-center form w-25" action="../logic/Handler.php" method = "POST">
 
     <label class="form-label row">

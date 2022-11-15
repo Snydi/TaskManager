@@ -16,24 +16,12 @@ class UserManager
         $query = "INSERT INTO users (id, email, password) VALUES (NULL, '$this->email', '$this->password') ";
         mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
     }
-    public function loginCheck() //нужно добавить больше проверок на  ошибки при авторизации или удалить нахуй
+    public function userExists()
     {
-        $error = 0;
-        if (!$this->userExists())
-        {
-            $error ++;
-        }
-        if ($error > 0 )
-        {
-            return false;
-        }
-        return true;
-    }
-    private function userExists()
-    {
-        $query = "SELECT * FROM users WHERE email = '$this->email' ";
-        $emailFromDB =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-        return $emailFromDB == $this->email;
+        $query = "SELECT email FROM users as email WHERE email = '$this->email' ";
+        $queryresult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $emailFromDB = mysqli_fetch_assoc($queryresult);
+        return $emailFromDB["email"] == $this->email;
     }
     public function removeUserFromDB()
     {
