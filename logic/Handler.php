@@ -2,6 +2,8 @@
 require_once '../classes/UserManager.php';
 if(isset($_POST["submit"]))
 {
+    $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
+    $password = mysqli_real_escape_string(Database::connection(),$_POST["password"]);
     $user = new UserManager($_POST["email"], $_POST["password"]);
     if ($user->userExists())
     {
