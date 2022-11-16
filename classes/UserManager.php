@@ -63,7 +63,7 @@ class UserManager
     public function wrongEmailOrPassword(): bool
     {
         $userInfo = $this->getUserInfo();
-        return !password_verify($userInfo["password"],$this->password); //function returns 0 when password is correct, because I want to keep the theme of these functions
+        return password_verify($userInfo["password"],$this->password);
     }
 
 }

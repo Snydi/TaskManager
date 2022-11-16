@@ -1,7 +1,13 @@
 <?php //this file realises all the functions related to authentication and task management
 require_once '../classes/UserManager.php';
+
+
+
+
+
 if (isset($_POST["submitRegister"]))
 {
+
     $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
     $password = mysqli_real_escape_string(Database::connection(),$_POST["password"]);
     $user = new UserManager($email, $password);
@@ -23,6 +29,7 @@ if (isset($_POST["submitRegister"]))
 }
 else if(isset($_POST["submitLogin"]))
 {
+
     $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
     $password = mysqli_real_escape_string(Database::connection(),$_POST["password"]);
     $user = new UserManager($email, $password);
