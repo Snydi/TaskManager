@@ -43,7 +43,7 @@ else if(isset($_POST["submitLogin"]))
     {
     session_start();
     $_SESSION["auth"] = true;
-    $_SESSION["user"] = serialize($user); //storing object that contains userinfo
+    $_SESSION["user"] = serialize($user); //storing object that contains user info
     header("Location: ../pages/home.php");
     }
 

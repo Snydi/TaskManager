@@ -3,6 +3,7 @@ require_once '../header.php';
 require_once "../logic/handler.php";
 ?>
 <H1 class="text-center">Tasks</H1>
+<?php if (isset($_SESSION["auth"])) {?>
     <form class="container text-center form w-25" action="../logic/handler.php" method = "POST">
 
         <label class="form-label row">
@@ -11,5 +12,6 @@ require_once "../logic/handler.php";
         <input type="submit" name="addTask"  value="Add task" class="btn btn-success"">
 
     </form>
-<?php
-require_once '../footer.php';
+<?php } else {
+    require_once '../footer.php';
+}
