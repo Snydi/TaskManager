@@ -30,6 +30,13 @@ class UserManager
 //        $query = "SELECT id FROM users as id";
 //        return  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
 //    }
+
+    public function getUserInfo()
+    {
+        $query = "SELECT * FROM users WHERE email = $this->email";
+        $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        return mysqli_fetch_assoc($queryResult);
+    }
     public function addTask()
     {
         $query = "INSERT INTO tasks (id,task) VALUES (, '$this->task')";
@@ -42,13 +49,10 @@ class UserManager
         $query = "SELECT email FROM users as email WHERE email = '$this->email' ";
         $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
         $queryResult = mysqli_fetch_assoc($queryResult);
-        if ( $queryResult["email"] === $this->email)
-        {
-            return $queryResult["email"];
-        } else return false;
+        return $queryResult["email"] === $this->email;
 
     }
-    public function emptyInput()
+    public function emptyInput(): bool
     {
         if (($this->email === '') ||($this->password === '') )
         {
@@ -56,9 +60,10 @@ class UserManager
         }
         else return false;
     }
-    public function wrongEmailOrPassword()
+    public function wrongEmailOrPassword(): bool
     {
-
+        $userInfo = $this->getUserInfo();
+        return !password_verify($userInfo["password"],$this->password); //function returns 0 when password is correct, because I want to keep the theme of these functions
     }
 
 }

@@ -31,6 +31,10 @@ else if(isset($_POST["submitLogin"]))
     {
         header("Location: ../pages/authPage.php?login=true&autherror=Not all of fields are filled."); //$_GET["login] = true because we need to stay on login page
     }
+    else if ($user->wrongEmailOrPassword())
+    {
+        header("Location: ../pages/authPage.php?login=true&autherror=Wrong email or password.");
+    }
     else
     {
     session_start();
