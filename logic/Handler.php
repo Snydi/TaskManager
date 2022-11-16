@@ -1,6 +1,5 @@
-<?php
+<?php //this file realises all the functions related to authentication and task management
 require_once '../classes/UserManager.php';
-
 if (isset($_POST["submitRegister"]))
 {
     $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
@@ -14,10 +13,13 @@ if (isset($_POST["submitRegister"]))
     {
         header("Location: ../pages/authPage.php?autherror=User already exists.");
     }
-    $user->registerUser();
-    session_start();
-    $_SESSION["auth"] = true;
-    header("Location: ../pages/home.php");
+    else
+    {
+        $user->registerUser();
+        session_start();
+        $_SESSION["auth"] = true;
+        header("Location: ../pages/home.php");
+    }
 }
 else if(isset($_POST["submitLogin"]))
 {
