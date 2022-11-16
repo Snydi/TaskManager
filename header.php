@@ -19,7 +19,7 @@
         <a class="nav-link" href ="../logic/logout.php">Logout</a>
     <?php } else { ?>
     <a class="nav-link" href ="authPage.php">Register</a>
-    <a class="nav-link" href ="authPage.php">Login</a>
+    <a class="nav-link" href ="authPage.php?login=true">Login</a>
     <?php }?>
 
 </nav>

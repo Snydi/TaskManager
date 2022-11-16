@@ -2,7 +2,7 @@
 require_once "../header.php";
 require_once "../logic/Handler.php";
 ?>
-<h3 class="text-center"><?= $_GET["autherror"] ?? ''?></h3>
+                    <h3 class="text-center"><?= $_GET["autherror"] ?? ''?></h3>
 <form class="container text-center form w-25" action="../logic/Handler.php" method = "POST">
 
     <label class="form-label row">
@@ -11,9 +11,11 @@ require_once "../logic/Handler.php";
     <label class="form-label row">
         <input class="form-control" name="password" placeholder="Password:" type="password" value="<?= $_POST['password'] ?? '' ?>" >
     </label>
-
-    <input type="submit" name="submit"  value="submit" class="btn btn-success"">
-
+<?php if (isset($_GET["login"])) { ?>
+    <input type="submit" name="submitLogin"  value="Login" class="btn btn-success"">
+<?php } else { ?>
+    <input type="submit" name="submitRegister"  value="Register" class="btn btn-success"">
+    <?php }?>
 </form>
 <?php
 require_once "../footer.php";
