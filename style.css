@@ -35,7 +35,6 @@ a:visited { text-decoration: none; }
 a:hover {
 text-decoration: none;
 color:red !important;
-font-size: 35px;
 transition: all 0.5s;
 transform: rotate(720deg);
 }
