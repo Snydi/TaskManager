@@ -1,4 +1,50 @@
-.navbar-c
+.wrapper{
+    width:1600px;
+    margin:auto;
+}
+html{
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 16px !important;
+}
+.header{
+    background: #0d6efd;
+}
+.header:active{
+    
+    background-image: url("images/URXL_VYlyks.jpg");
+    background-size: contain;
+}
+.header__content
 {
-    background-color: darkcyan;
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding:10px 0px;
+}
+.header__link{
+    color:black;
+}
+.header__auth{
+    display:flex;
+    margin-left: auto;
+    gap:165px;
+    align-items:center;
+}
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover {
+text-decoration: none;
+color:red !important;
+font-size: 35px;
+transition: all 0.5s;
+transform: rotate(720deg);
+}
+a:active { text-decoration: none; }
+.task__content{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    margin:auto;
+    max-width: 1200px;
 }
