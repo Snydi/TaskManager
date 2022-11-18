@@ -6,4 +6,8 @@ class TaskManager
         $query = "INSERT INTO tasks (id, task) VALUES('$id', '$task')";
         mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
     }
+    public function deleteTask($id)
+    {
+        $query = "DELETE FROM tasks WHERE id = '$id'";
+    }
 }
