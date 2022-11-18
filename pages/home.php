@@ -35,10 +35,12 @@ require_once "../logic/handler.php";
                         echo '<tr>';
                         echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
                         echo '<td>'  . '</td>';
+                        echo '<td>' . '<a type="button" onclick="return deletionCheck()" class="btn btn-danger delete" href ="?collectorsdeleteid=' . htmlspecialchars($item['id']) . '">Delete</a>' . '</td>';
                         echo '</tr>' . " ";
                     }
                 }
                 ?>
+
             </tr>
             </tbody>
         </table>
