@@ -63,13 +63,16 @@ else if(isset($_POST["submitLogin"]))
     $user = unserialize($_SESSION["user"]); //retrieving the object
     $userInfo = $user->getUserInfo();
 
-    $userId = $userInfo["id"]; //getting id of user that adds the task
     $task = mysqli_real_escape_string(Database::connection(),$_POST["task"]);
 
     $taskManager= new TaskManager();
-    $taskManager->addTask($userId,$task);
+    $taskManager->addTask( $userInfo["id"],$task);
     header("Location: ../pages/home.php");
 
+} else if (isset($_GET["taskId"]))
+{
+    $taskManager= new TaskManager();
+    $taskManager->deleteTask($_GET["taskId"]);
+    header("Location: ../pages/home.php");
 }
-
 
