@@ -15,7 +15,36 @@ require_once "../logic/handler.php";
     </form>
 
 </div>
-<?php } else {
+    <div class="main py-5" >
+    <div class="container text-center mt-3" >
+        <table class="table" >
+            <thead>
+            <tr>
+                <th scope="col">Task</th>
+                <th scope="col">Time left</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <?php
+                $count = 0;
+                if(isset($tasks)) {
+                    foreach ($tasks as $item ) {
+                        echo '<tr>';
+                        echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
+                        echo '<td>'  . '</td>';
+                        echo '</tr>' . " ";
+                    }
+                }
+                ?>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<?php
+} else {
     require_once '../footer.php';
 }
 

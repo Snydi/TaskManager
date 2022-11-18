@@ -2,6 +2,14 @@
 require_once '../classes/UserManager.php';
 require_once '../classes/TaskManager.php';
 
+if (isset($_SESSION["auth"]))
+{
+    $taskManager= new TaskManager();
+
+    $user = unserialize($_SESSION["user"]); //retrieving the object
+    $userInfo = $user->getUserInfo();
+    $tasks = $taskManager->getTasks($userInfo["id"]);
+}
 if (isset($_POST["submitRegister"]))
 {
 
