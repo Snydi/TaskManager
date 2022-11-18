@@ -17,7 +17,6 @@ class UserManager
         mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
     }
 
-
     public function removeUserAccount()
     {
         $query = "DELETE FROM users WHERE id = $this->id";
@@ -30,12 +29,7 @@ class UserManager
         $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
         return mysqli_fetch_assoc($queryResult);
     }
-    public function addTask($task)
-    {
-        $userInfo = $this->getUserInfo();
-        $query = "INSERT INTO tasks (id, task) VALUES"."(".$userInfo["id"].",".$task.")";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-    }
+
 
     //The following functions are needed for error-checking during authentication
     public function userExists(): bool

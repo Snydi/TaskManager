@@ -1,5 +1,6 @@
 <?php //this file realises all the functions related to authentication and task management
 require_once '../classes/UserManager.php';
+require_once '../classes/TaskManager.php';
 
 if (isset($_POST["submitRegister"]))
 {
@@ -51,8 +52,13 @@ else if(isset($_POST["submitLogin"]))
 {
     session_start();
     $user = unserialize($_SESSION["user"]); //retrieving the object
+    $userInfo = $user->getUserInfo();
+
+    $id = $userInfo["id"]; //getting id of user that adds the task
     $task = mysqli_real_escape_string(Database::connection(),$_POST["task"]);
-    $user->addTask($task);
+
+    $taskManager= new TaskManager();
+    $taskManager->addTask($id,$task);
     header("Location: ../pages/home.php");
 
 }
