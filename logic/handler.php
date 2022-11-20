@@ -1,7 +1,9 @@
 <?php //this file realises all the functions related to authentication and task management
 require_once '../classes/UserManager.php';
+
 if (isset($_POST["submitRegister"]))
 {
+
     $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
     $password = mysqli_real_escape_string(Database::connection(),$_POST["password"]);
     $user = new UserManager($email, $password);
@@ -18,11 +20,13 @@ if (isset($_POST["submitRegister"]))
         $user->registerUser();
         session_start();
         $_SESSION["auth"] = true;
+        $_SESSION["user"] = serialize($user);
         header("Location: ../pages/home.php");
     }
 }
 else if(isset($_POST["submitLogin"]))
 {
+
     $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
     $password = mysqli_real_escape_string(Database::connection(),$_POST["password"]);
     $user = new UserManager($email, $password);
@@ -39,8 +43,18 @@ else if(isset($_POST["submitLogin"]))
     {
     session_start();
     $_SESSION["auth"] = true;
+    $_SESSION["user"] = serialize($user); //storing object that contains user info
     header("Location: ../pages/home.php");
     }
+
+} else if(isset($_POST["addTask"]))
+{
+    session_start();
+    $user = unserialize($_SESSION["user"]); //retrieving the object
+    $task = mysqli_real_escape_string(Database::connection(),$_POST["task"]);
+    $user->addTask($task);
+    header("Location: ../pages/home.php");
+
 }
 
 

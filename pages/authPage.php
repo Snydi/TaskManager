@@ -1,8 +1,9 @@
 <?php
 require_once "../header.php";
-require_once "../logic/Handler.php";
+require_once "../logic/handler.php";
 ?>
                     <h3 class="text-center"><?= $_GET["autherror"] ?? ''?></h3>
+
 <div class="task__content">
 <form class="container text-center form w-25" action="../logic/Handler.php" method = "POST">
 <?php if (isset($_GET["login"])) { ?>
@@ -10,6 +11,7 @@ require_once "../logic/Handler.php";
 <?php } else { ?>
     <h1>Register</h1>
     <?php }?>
+
     <label class="form-label row">
         <input class="form-control" name="email" placeholder="Email:" type="text" value="<?= $_POST['email'] ?? '' ?>" >
     </label>
