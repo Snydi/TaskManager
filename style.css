@@ -19,10 +19,11 @@ html{
     display:flex;
     justify-content: flex-start;
     align-items: center;
-    padding:10px 0px;
+
 }
 .header__link{
     color:black;
+    padding:10px 80px;
 }
 .header__auth{
     display:flex;
@@ -35,7 +36,6 @@ a:visited { text-decoration: none; }
 a:hover {
 text-decoration: none;
 color:red !important;
-font-size: 35px;
 transition: all 0.5s;
 transform: rotate(720deg);
 }
@@ -47,4 +47,14 @@ a:active { text-decoration: none; }
     padding-top: 100px;
     margin:auto;
     max-width: 1200px;
+}
+.transform:hover{
+    transition: all 10s;
+    transform: matrix(15, 324, 11, 43, 54, 69);
+}
+.form-control:focus{
+    transition: transform 20s;
+    transform: translateX(1000px);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,0,0,1) 47%, rgba(0,0,0,1) 100%);
+border-width: 20px;
 }

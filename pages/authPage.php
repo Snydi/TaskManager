@@ -17,9 +17,9 @@ require_once "../logic/Handler.php";
         <input class="form-control" name="password" placeholder="Password:" type="password" value="<?= $_POST['password'] ?? '' ?>" >
     </label>
 <?php if (isset($_GET["login"])) { ?>
-    <input type="submit" name="submitLogin"  value="Login" class="btn btn-success">
+    <input type="submit" name="submitLogin"  value="Login" class="btn btn-success transform">
 <?php } else { ?>
-    <input type="submit" name="submitRegister"  value="Register" class="btn btn-success">
+    <input type="submit" name="submitRegister"  value="Register" class="btn btn-success transform">
     <?php }?>
 </form>
 </div>

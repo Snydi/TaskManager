@@ -9,7 +9,7 @@ require_once "../logic/Handler.php";
         <label class="form-label row">
           <textarea class="form-control" name="task" placeholder="Task:" > </textarea>
         </label>
-        <input type="submit" name="submit"  value="submit" class="btn btn-success"">
+        <input type="submit" name="submit"  value="submit" class="btn btn-success transform">
 
     </form>
 </div>
