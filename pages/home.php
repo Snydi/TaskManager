@@ -21,7 +21,8 @@ require_once "../logic/handler.php";
             <thead>
             <tr>
                 <th scope="col">Task</th>
-                <th scope="col">Time left</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -34,7 +35,9 @@ require_once "../logic/handler.php";
                     foreach ($tasks as $item ) {
                         echo '<tr>';
                         echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
+                        echo '<td>' . htmlspecialchars($item["status"]) . '</td>';
                         echo '<td>'  . '</td>';
+                        echo '<td>' . '<a type="button"  class="btn btn-success" href ="?completedTaskId=' . htmlspecialchars($item['id']) . '">Done</a>' . '</td>';
                         echo '<td>' . '<a type="button" onclick="return deletionCheck()" class="btn btn-danger delete" href ="?taskId=' . htmlspecialchars($item['id']) . '">Delete</a>' . '</td>';
                         echo '</tr>' . " ";
                     }

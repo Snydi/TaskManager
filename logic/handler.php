@@ -1,4 +1,4 @@
-<?php //this file realises all the functions related to authentication and task management
+<?php //this file realises all the functions related to authentication
 require_once '../classes/UserManager.php';
 require_once '../classes/TaskManager.php';
 
@@ -10,6 +10,7 @@ if (isset($_SESSION["auth"]))
     $userInfo = $user->getUserInfo();
     $tasks = $taskManager->getTasks($userInfo["id"]);
 }
+
 if (isset($_POST["submitRegister"]))
 {
 
@@ -33,9 +34,9 @@ if (isset($_POST["submitRegister"]))
         header("Location: ../pages/home.php");
     }
 }
-else if(isset($_POST["submitLogin"]))
-{
 
+if(isset($_POST["submitLogin"]))
+{
     $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
     $password = mysqli_real_escape_string(Database::connection(),$_POST["password"]);
     $user = new UserManager($email, $password);
@@ -56,8 +57,9 @@ else if(isset($_POST["submitLogin"]))
     $_SESSION["user"] = serialize($user); //storing object that contains user info
     header("Location: ../pages/home.php");
     }
+}
 
-} else if(isset($_POST["addTask"]))
+if(isset($_POST["addTask"]))
 {
     session_start();
     $user = unserialize($_SESSION["user"]); //retrieving the object
@@ -69,10 +71,18 @@ else if(isset($_POST["submitLogin"]))
     $taskManager->addTask( $userInfo["id"],$task);
     header("Location: ../pages/home.php");
 
-} else if (isset($_GET["taskId"]))
+}
+
+if (isset($_GET["taskId"])) //if uses tries to delete a task
 {
     $taskManager= new TaskManager();
     $taskManager->deleteTask($_GET["taskId"]);
+    header("Location: ../pages/home.php");
+}
+if (isset($_GET["completedTaskId"])) //if user considers task done.
+{
+    $taskManager = new TaskManager();
+    $taskManager->changeTaskStatus($_GET["completedTaskId"],'Done');
     header("Location: ../pages/home.php");
 }
 

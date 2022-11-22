@@ -15,12 +15,17 @@ class TaskManager
     }
     public function addTask($userId,$task)
     {
-        $query = "INSERT INTO tasks (id,user_id, task) VALUES(NULL,'$userId', '$task')";
+        $query = "INSERT INTO tasks (id,user_id, task, status) VALUES(NULL,'$userId', '$task','In progress')";
         mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
     }
     public function deleteTask($id)
     {
         $query = "DELETE FROM tasks WHERE id = '$id'";
+        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+    }
+    public function changeTaskStatus($id,$status)
+    {
+        $query = "UPDATE tasks SET status = '$status' WHERE id = '$id'";
         mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
     }
 }
