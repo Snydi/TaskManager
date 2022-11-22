@@ -1,8 +1,7 @@
-<?php  session_start();
-
-?>
+<?php  session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>TaskManager</title>

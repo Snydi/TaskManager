@@ -10,7 +10,6 @@ if (isset($_SESSION["auth"]))
     $userInfo = $user->getUserInfo();
     $tasks = $taskManager->getTasks($userInfo["id"]);
 }
-
 if (isset($_POST["submitRegister"]))
 {
 
@@ -34,7 +33,6 @@ if (isset($_POST["submitRegister"]))
         header("Location: ../pages/home.php");
     }
 }
-
 if(isset($_POST["submitLogin"]))
 {
     $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
@@ -58,7 +56,6 @@ if(isset($_POST["submitLogin"]))
     header("Location: ../pages/home.php");
     }
 }
-
 if(isset($_POST["addTask"]))
 {
     session_start();
@@ -72,17 +69,16 @@ if(isset($_POST["addTask"]))
     header("Location: ../pages/home.php");
 
 }
-
-if (isset($_GET["taskId"])) //if uses tries to delete a task
+if (isset($_GET["deleteTaskId"])) //if uses tries to delete a task
 {
     $taskManager= new TaskManager();
-    $taskManager->deleteTask($_GET["taskId"]);
+    $taskManager->deleteTask($_GET["deleteTaskId"]);
     header("Location: ../pages/home.php");
 }
-if (isset($_GET["completedTaskId"])) //if user considers task done.
+if (isset($_GET["completeTaskId"])) //if user considers task done.
 {
     $taskManager = new TaskManager();
-    $taskManager->changeTaskStatus($_GET["completedTaskId"],'Done');
+    $taskManager->changeTaskStatus($_GET["completeTaskId"],'Done');
     header("Location: ../pages/home.php");
 }
 

@@ -1,17 +1,18 @@
 <?php
 require_once '../header.php';
-require_once "../logic/handler.php";
+require_once "../logic/controller.php";
 ?>
 <div class="task__content">
 <H1 class="text-center">Tasks</H1>
 <?php if (isset($_SESSION["auth"])) {?>
-    <form class="container text-center form w-25" action="../logic/handler.php" method = "POST">
+
+    <form class="container text-center form w-25" action="../logic/controller.php" method = "POST">
 
         <label class="form-label row">
           <textarea class="form-control" name="task" placeholder="Task:" > </textarea>
         </label>
-        <input type="submit" name="addTask"  value="Add task" class="btn btn-success"">
 
+        <input type="submit" name="addTask"  value="Add task" class="btn btn-success"">
     </form>
 
 </div>
@@ -24,26 +25,24 @@ require_once "../logic/handler.php";
                 <th scope="col">Status</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
-                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <?php
-                $count = 0;
-                if(isset($tasks)) {
-                    foreach ($tasks as $item ) {
+                if(isset($tasks))
+                {
+                    foreach ($tasks as $item )
+                    {
                         echo '<tr>';
                         echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
                         echo '<td>' . htmlspecialchars($item["status"]) . '</td>';
-                        echo '<td>'  . '</td>';
-                        echo '<td>' . '<a type="button"  class="btn btn-success" href ="?completedTaskId=' . htmlspecialchars($item['id']) . '">Done</a>' . '</td>';
-                        echo '<td>' . '<a type="button" onclick="return deletionCheck()" class="btn btn-danger delete" href ="?taskId=' . htmlspecialchars($item['id']) . '">Delete</a>' . '</td>';
+                        echo '<td>' . '<a type="button"  class="btn btn-success" href ="?completeTaskId=' . htmlspecialchars($item['id']) . '">Done</a>' . '</td>';
+                        echo '<td>' . '<a type="button" onclick="return deletionCheck()" class="btn btn-danger delete" href ="?deleteTaskId=' . htmlspecialchars($item['id']) . '">Delete</a>' . '</td>';
                         echo '</tr>' . " ";
                     }
                 }
                 ?>
-
             </tr>
             </tbody>
         </table>

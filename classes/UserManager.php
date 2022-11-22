@@ -10,27 +10,22 @@ class UserManager
         $this->email = $emailPOST;
         $this->password = password_hash($passwordPOST, PASSWORD_DEFAULT);
     }
-
     public function registerUser()
     {
         $query = "INSERT INTO users (id, email, password) VALUES (NULL, '$this->email', '$this->password') ";
         mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
     }
-
-    public function removeUserAccount()
+    public function removeUserAccount() //function is not yet complete nor used
     {
         $query = "DELETE FROM users WHERE id = $this->id";
         mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
     }
-
     public function getUserInfo()
     {
         $query = "SELECT * FROM users WHERE email = $this->email";
         $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
         return mysqli_fetch_assoc($queryResult);
     }
-
-
     //The following functions are needed for error-checking during authentication
     public function userExists(): bool
     {
@@ -38,7 +33,6 @@ class UserManager
         $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
         $queryResult = mysqli_fetch_assoc($queryResult);
         return $queryResult["email"] === $this->email;
-
     }
     public function emptyInput(): bool
     {
@@ -53,5 +47,4 @@ class UserManager
         $userInfo = $this->getUserInfo();
         return password_verify($userInfo["password"],$this->password);
     }
-
 }
