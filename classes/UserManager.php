@@ -42,15 +42,15 @@ class UserManager
         }
         else return false;
     }
-    public function wrongEmailOrPassword(): bool
+    public function wrongEmailOrPassword(): bool // check if user inputs the right combination of email and password
     {
         $userInfo = $this->getUserInfo();
         return password_verify($userInfo["password"],$this->password);
     }
-    public function invalidEmail(): bool // function checks if user has a valid email using this monstrosity
+    public function invalidEmail(): bool // checks if user has a valid email using this monstrosity
     {
         $userInfo = $this->getUserInfo();
-        if (preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
+        if (!preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22
                             (?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))
@@ -64,9 +64,16 @@ class UserManager
                             [a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2
                             [0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})
                             |(?:[1-9]?[0-9]))){3}))\]))$/iD',
-        $userInfo["email"]) == 1) return false;
-        else {
+        $userInfo["email"]) == 1) return true;
+        else return false;
+
+    }
+    public function invalidPassword(): bool // works wrong probably
+    {
+        if (!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^& +=§!\?]{7,100}$/', $this->password))
+        {
             return true;
-        };
+        }
+        else return false;
     }
 }

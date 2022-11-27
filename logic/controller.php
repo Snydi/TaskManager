@@ -22,7 +22,11 @@ if (isset($_POST["submitRegister"]))
     }
     else if ($user->invalidEmail())
     {
-        header("Location: ../pages/authPage.php?login=true&autherror=Invalid email.");
+        header("Location: ../pages/authPage.php?&autherror=Invalid email.");
+    }
+    else if ($user->invalidPassword())
+    {
+        header("Location: ../pages/authPage.php?autherror=Password must be at least 8 characters long, have numbers in it");
     }
     else if ($user->userExists())
     {
