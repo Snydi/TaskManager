@@ -6,7 +6,7 @@ class UserManager
     private string $password;
     protected PDO $db;
 
-    public function __construct(PDO $db,$emailPOST,$passwordPOST) //takes POST data as parameters and immediately hashes password
+    public function __construct(PDO $db,$emailPOST = " ",$passwordPOST = " ") //takes POST data as parameters and immediately hashes password
     {
         $this->db = $db;
         $this->email = $emailPOST;
@@ -23,10 +23,16 @@ class UserManager
         $query = "DELETE FROM users WHERE id = $this->id";
         mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
     }
-    public function getUserInfo()
+    public function getUserInfoById($id)
+    {
+        $stmt =$this->db->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getUserInfoByEmail($email)
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->execute([$this->email]);
+        $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     //The following functions are needed for error-checking during authentication

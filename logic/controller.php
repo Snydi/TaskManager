@@ -2,12 +2,12 @@
 require_once '../classes/UserManager.php';
 require_once '../classes/TaskManager.php';
 
-if (isset($_SESSION["auth"]))
+if (isset($_SESSION))
 {
-    $taskManager= new TaskManager();
-
-    $user = unserialize($_SESSION["user"]); //retrieving the object
-    $userInfo = $user->getUserInfo();
+    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
+    $user = new UserManager($db);
+    $userInfo = $user->getUserInfoByEmail($_SESSION["userEmail"]);
+    $taskManager = new TaskManager($db);
     $tasks = $taskManager->getTasks($userInfo["id"]);
 }
 if (isset($_POST["submitRegister"]))
@@ -33,7 +33,6 @@ if (isset($_POST["submitRegister"]))
     {
         $id = $user->registerUser();
         session_start();
-        $_SESSION["auth"] = true;
         $_SESSION["userId"] = $id;
         header("Location: ../pages/home.php");
     }
@@ -42,7 +41,7 @@ if(isset($_POST["submitLogin"]))
 {
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;charset=utf8');
+    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
     $user = new UserManager($db, $email, $password);
 
     if ($user->emptyInput())
@@ -50,15 +49,14 @@ if(isset($_POST["submitLogin"]))
         //$_GET["login] = true here because we need to stay on login page
         header("Location: ../pages/authPage.php?login=true&autherror=Not all of fields are filled.");
     }
-    else if ($user->wrongEmailOrPassword())
-    {
-        header("Location: ../pages/authPage.php?login=true&autherror=Wrong email or password.");
-    }
+//    else if ($user->wrongEmailOrPassword())
+//    {
+//        header("Location: ../pages/authPage.php?login=true&autherror=Wrong email or password.");
+//    }
     else
     {
     session_start();
-    $_SESSION["auth"] = true;
-    $_SESSION["user"] = serialize($user); //storing object that contains user info
+    $_SESSION["userEmail"] = $email;
     header("Location: ../pages/home.php");
     }
 }

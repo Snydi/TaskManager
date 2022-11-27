@@ -1,17 +1,16 @@
 <?php
 class TaskManager
 {
+    protected PDO $db;
+    public function __construct(PDO $db)
+    {
+        $this->db = $db;
+    }
     public function getTasks($id)
     {
-        $query = "SELECT * FROM tasks WHERE user_id = '$id'";
-        $queryResult = mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-        if(isset($queryResult))
-        {
-            if (mysqli_num_rows($queryResult))
-                while ($row = mysqli_fetch_assoc($queryResult))
-                    $result[] = $row;
-        }
-        return $result ?? NULL;
+        $stmt = $this->db->prepare("SELECT * FROM tasks WHERE user_id = ?");
+        $stmt->execute([$id]);
+        return $stmt;
     }
     public function addTask($userId,$task)
     {

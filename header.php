@@ -18,7 +18,7 @@
     <div class="wrapper">
         <div class="header__content">
         <a class="header__link" href ="home.php">Home</a>
-        <?php if (isset($_SESSION["auth"])) { ?>
+        <?php if (isset($_SESSION["userEmail"])) { ?>
         <div class="header__auth">
             <a class="header__link">Profile</a>
             <a class="header__link" href ="../logic/logout.php">Logout</a>

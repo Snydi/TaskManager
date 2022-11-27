@@ -4,7 +4,7 @@ require_once "../logic/controller.php";
 ?>
 <div class="task__content">
 <H1 class="text-center">Tasks</H1>
-<?php if (isset($_SESSION["auth"])) {?>
+<?php if (isset($_SESSION["userEmail"])) {?>
 
     <form class="container text-center form w-25" action="../logic/controller.php" method = "POST">
 
