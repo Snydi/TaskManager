@@ -67,6 +67,6 @@ class UserManager
         $userInfo["email"]) == 1) return false;
         else {
             return true;
-        };
+        }
     }
 }
