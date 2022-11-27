@@ -38,9 +38,9 @@ class UserManager
     //The following functions are needed for error-checking during authentication
     public function userExists(): bool
     {
-        $query = "SELECT email FROM users as email WHERE email = '$this->email' ";
-        $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-        $queryResult = mysqli_fetch_assoc($queryResult);
+        $stmt = $this->db->prepare("SELECT email FROM users as email WHERE email = ?");
+        $stmt->execute([$this->email]);
+        $queryResult = $stmt->fetch(PDO::FETCH_ASSOC);
         return $queryResult["email"] === $this->email;
     }
     public function emptyInput(): bool

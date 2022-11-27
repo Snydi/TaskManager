@@ -1,4 +1,4 @@
-<?php //this file realises all the functions related to authentication
+<?php
 require_once '../classes/UserManager.php';
 require_once '../classes/TaskManager.php';
 
@@ -12,11 +12,8 @@ if (isset($_SESSION))
 }
 if (isset($_POST["submitRegister"]))
 {
-
-    $email = $_POST["email"];
-    $password = $_POST["password"];
     $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
-    $user = new UserManager($db, $email, $password);
+    $user = new UserManager($db, $_POST["email"], $_POST["password"]);
     if ($user->emptyInput())
     {
         header("Location: ../pages/authPage.php?autherror=Not all of fields are filled.");
@@ -25,10 +22,10 @@ if (isset($_POST["submitRegister"]))
 //    {
 //        header("Location: ../pages/authPage.php?autherror=Invalid email.");
 //    }
-//    else if ($user->userExists())
-//    {
-//        header("Location: ../pages/authPage.php?autherror=User already exists.");
-//    }
+    else if ($user->userExists())
+    {
+        header("Location: ../pages/authPage.php?autherror=User already exists.");
+    }
     else
     {
         $id = $user->registerUser();
@@ -39,10 +36,8 @@ if (isset($_POST["submitRegister"]))
 }
 if(isset($_POST["submitLogin"]))
 {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
     $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
-    $user = new UserManager($db, $email, $password);
+    $user = new UserManager($db, $_POST["email"], $_POST["email"]);
 
     if ($user->emptyInput())
     {
@@ -56,7 +51,7 @@ if(isset($_POST["submitLogin"]))
     else
     {
     session_start();
-    $_SESSION["userEmail"] = $email;
+    $_SESSION["userEmail"] = $_POST["email"];
     header("Location: ../pages/home.php");
     }
 }
