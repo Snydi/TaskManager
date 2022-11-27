@@ -1,19 +1,22 @@
 <?php
-require_once 'Database.php';
+require_once 'MyPDO.php';
 class UserManager
 {
     private string $email;
     private string $password;
+    protected PDO $db;
 
-    public function __construct($emailPOST,$passwordPOST) //takes POST data as parameters and immediately hashes password
+    public function __construct(PDO $db,$emailPOST,$passwordPOST) //takes POST data as parameters and immediately hashes password
     {
+        $this->db = $db;
         $this->email = $emailPOST;
         $this->password = password_hash($passwordPOST, PASSWORD_DEFAULT);
     }
-    public function registerUser()
+    public function registerUser(): string
     {
-        $query = "INSERT INTO users (id, email, password) VALUES (NULL, '$this->email', '$this->password') ";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $stmt = $this->db->prepare("INSERT INTO users (id, email, password) VALUES (NULL, ? , ?)");
+        $stmt->execute([$this->email,$this->password]);
+        return $this->db->lastInsertId();
     }
     public function removeUserAccount() //function is not yet complete nor used
     {
@@ -22,9 +25,9 @@ class UserManager
     }
     public function getUserInfo()
     {
-        $query = "SELECT * FROM users WHERE email = $this->email";
-        $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-        return mysqli_fetch_assoc($queryResult);
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$this->email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     //The following functions are needed for error-checking during authentication
     public function userExists(): bool

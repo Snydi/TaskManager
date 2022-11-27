@@ -13,35 +13,37 @@ if (isset($_SESSION["auth"]))
 if (isset($_POST["submitRegister"]))
 {
 
-    $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
-    $password = mysqli_real_escape_string(Database::connection(),$_POST["password"]);
-    $user = new UserManager($email, $password);
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
+    $user = new UserManager($db, $email, $password);
     if ($user->emptyInput())
     {
         header("Location: ../pages/authPage.php?autherror=Not all of fields are filled.");
     }
-    else if ($user->invalidEmail())
-    {
-        header("Location: ../pages/authPage.php?login=true&autherror=Invalid email.");
-    }
-    else if ($user->userExists())
-    {
-        header("Location: ../pages/authPage.php?autherror=User already exists.");
-    }
+//    else if ($user->invalidEmail())
+//    {
+//        header("Location: ../pages/authPage.php?autherror=Invalid email.");
+//    }
+//    else if ($user->userExists())
+//    {
+//        header("Location: ../pages/authPage.php?autherror=User already exists.");
+//    }
     else
     {
-        $user->registerUser();
+        $id = $user->registerUser();
         session_start();
         $_SESSION["auth"] = true;
-        $_SESSION["user"] = serialize($user);
+        $_SESSION["userId"] = $id;
         header("Location: ../pages/home.php");
     }
 }
 if(isset($_POST["submitLogin"]))
 {
-    $email = mysqli_real_escape_string(Database::connection(),$_POST["email"]);
-    $password = mysqli_real_escape_string(Database::connection(),$_POST["password"]);
-    $user = new UserManager($email, $password);
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;charset=utf8');
+    $user = new UserManager($db, $email, $password);
 
     if ($user->emptyInput())
     {
