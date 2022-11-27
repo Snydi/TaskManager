@@ -20,6 +20,10 @@ if (isset($_POST["submitRegister"]))
     {
         header("Location: ../pages/authPage.php?autherror=Not all of fields are filled.");
     }
+    else if ($user->invalidEmail())
+    {
+        header("Location: ../pages/authPage.php?login=true&autherror=Invalid email.");
+    }
     else if ($user->userExists())
     {
         header("Location: ../pages/authPage.php?autherror=User already exists.");
@@ -69,7 +73,7 @@ if(isset($_POST["addTask"]))
     header("Location: ../pages/home.php");
 
 }
-if (isset($_GET["deleteTaskId"])) //if uses tries to delete a task
+if (isset($_GET["deleteTaskId"])) //if user tries to delete a task
 {
     $taskManager= new TaskManager();
     $taskManager->deleteTask($_GET["deleteTaskId"]);
