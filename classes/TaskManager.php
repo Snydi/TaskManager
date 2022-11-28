@@ -1,31 +1,30 @@
 <?php
 class TaskManager
 {
-    public function getTasks($id)
+    protected PDO $db;
+    public function __construct(PDO $db)
     {
-        $query = "SELECT * FROM tasks WHERE user_id = '$id'";
-        $queryResult = mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-        if(isset($queryResult))
-        {
-            if (mysqli_num_rows($queryResult))
-                while ($row = mysqli_fetch_assoc($queryResult))
-                    $result[] = $row;
-        }
-        return $result ?? NULL;
+        $this->db = $db;
     }
-    public function addTask($userId,$task)
+    public function getTasks($id): bool|PDOStatement
     {
-        $query = "INSERT INTO tasks (id,user_id, task, status) VALUES(NULL,'$userId', '$task','In progress')";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $stmt = $this->db->prepare("SELECT * FROM tasks WHERE user_id = ?");
+        $stmt->execute([$id]);
+        return $stmt;
+    }
+    public function addTask($id,$task)
+    {
+        $stmt = $this->db->prepare("INSERT INTO tasks (user_id, task, status) VALUES( ?, ? ,'In progress')");
+        $stmt->execute([$id,$task]);
     }
     public function deleteTask($id)
     {
-        $query = "DELETE FROM tasks WHERE id = '$id'";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $stmt = $this->db->prepare("DELETE FROM tasks WHERE id = ?");
+        $stmt->execute([$id]);
     }
     public function changeTaskStatus($id,$status)
     {
-        $query = "UPDATE tasks SET status = '$status' WHERE id = '$id'";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $stmt = $this->db->prepare("UPDATE tasks SET status = ? WHERE id = ?");
+        $stmt->execute([$status,$id]);
     }
 }

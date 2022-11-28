@@ -1,55 +1,64 @@
 <?php
-require_once 'Database.php';
 class UserManager
 {
-    private string $email;
-    private string $password;
+    protected PDO $db;
 
-    public function __construct($emailPOST,$passwordPOST) //takes POST data as parameters and immediately hashes password
+    public function __construct(PDO $db)
     {
-        $this->email = $emailPOST;
-        $this->password = password_hash($passwordPOST, PASSWORD_DEFAULT);
+        $this->db = $db;
     }
-    public function registerUser()
+    public function registerUser($email,$password): string
     {
-        $query = "INSERT INTO users (id, email, password) VALUES (NULL, '$this->email', '$this->password') ";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("INSERT INTO users (id, email, password) VALUES (NULL, ? , ?)");
+        $stmt->execute([$email,$password]);
+        return $this->db->lastInsertId();
     }
-    public function removeUserAccount() //function is not yet complete nor used
+//    public function removeUserAccount() //function is not yet complete nor used
+//    {
+//        $query = "DELETE FROM users WHERE id = $this->id";
+//        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+//    }
+    public function getUserInfoById($id)
     {
-        $query = "DELETE FROM users WHERE id = $this->id";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $stmt =$this->db->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getUserInfo()
+    public function getUserInfoByEmail($email)
     {
-        $query = "SELECT * FROM users WHERE email = $this->email";
-        $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-        return mysqli_fetch_assoc($queryResult);
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     //The following functions are needed for error-checking during authentication
-    public function userExists(): bool
+    public function userExists($email): bool
     {
-        $query = "SELECT email FROM users as email WHERE email = '$this->email' ";
-        $queryResult =  mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-        $queryResult = mysqli_fetch_assoc($queryResult);
-        return $queryResult["email"] === $this->email;
+        $stmt = $this->db->prepare("SELECT email FROM users as email WHERE email = ?");
+        $stmt->execute([$email]);
+        $queryResult = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $queryResult["email"] === $email;
     }
-    public function emptyInput(): bool
+    public function emptyInput($email,$password): bool
     {
-        if (($this->email === '') ||($this->password === '') )
+        if (($email === '') ||($password === ''))
         {
             return true;
         }
         else return false;
     }
-    public function wrongEmailOrPassword(): bool // check if user inputs the right combination of email and password
+
+    public function wrongEmailOrPassword($email,$password): bool
+
     {
-        $userInfo = $this->getUserInfo();
-        return password_verify($userInfo["password"],$this->password);
+        $userInfo = $this->getUserInfoByEmail($email);
+        return password_verify($userInfo["password"],$password);
     }
-    public function invalidEmail(): bool // checks if user has a valid email using this monstrosity
+
+    public function invalidEmail($email): bool // function checks if user has a valid email using this monstrosity
     {
-        $userInfo = $this->getUserInfo();
+        $userInfo = $this->getUserInfoByEmail($email);
+
         if (!preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22
@@ -74,6 +83,7 @@ class UserManager
         {
             return true;
         }
+
         else return false;
     }
 }
