@@ -12,19 +12,19 @@ class TaskManager
         $stmt->execute([$id]);
         return $stmt;
     }
-    public function addTask($userId,$task)
+    public function addTask($id,$task)
     {
-        $query = "INSERT INTO tasks (id,user_id, task, status) VALUES(NULL,'$userId', '$task','In progress')";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $stmt = $this->db->prepare( "INSERT INTO tasks (id,user_id, task, status) VALUES(NULL, ?, ? ,'In progress')");
+        $stmt->execute([$id,$task]);
     }
     public function deleteTask($id)
     {
-        $query = "DELETE FROM tasks WHERE id = '$id'";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $stmt = $this->db->prepare( "DELETE FROM tasks WHERE id = ?");
+        $stmt->execute([$id]);
     }
     public function changeTaskStatus($id,$status)
     {
-        $query = "UPDATE tasks SET status = '$status' WHERE id = '$id'";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+        $stmt = $this->db->prepare("UPDATE tasks SET status = ? WHERE id = ?");
+        $stmt->execute([$id,$status]);
     }
 }

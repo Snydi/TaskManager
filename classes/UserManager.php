@@ -53,12 +53,12 @@ class UserManager
     }
     public function wrongEmailOrPassword(): bool
     {
-        $userInfo = $this->getUserInfo();
+        $userInfo = $this->getUserInfoByEmail($this->email);
         return password_verify($userInfo["password"],$this->password);
     }
     public function invalidEmail(): bool // function checks if user has a valid email using this monstrosity
     {
-        $userInfo = $this->getUserInfo();
+        $userInfo = $this->getUserInfoByEmail($this->email);
         if (preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22
