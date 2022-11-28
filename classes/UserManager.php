@@ -47,14 +47,18 @@ class UserManager
         }
         else return false;
     }
+
     public function wrongEmailOrPassword($email,$password): bool
+
     {
         $userInfo = $this->getUserInfoByEmail($email);
         return password_verify($userInfo["password"],$password);
     }
+
     public function invalidEmail($email): bool // function checks if user has a valid email using this monstrosity
     {
         $userInfo = $this->getUserInfoByEmail($email);
+
         if (!preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22
@@ -69,9 +73,17 @@ class UserManager
                             [a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2
                             [0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})
                             |(?:[1-9]?[0-9]))){3}))\]))$/iD',
-        $userInfo["email"]) == 1) return false;
-        else {
+        $userInfo["email"]) == 1) return true;
+        else return false;
+
+    }
+    public function invalidPassword(): bool // works wrong probably
+    {
+        if (!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^& +=§!\?]{7,100}$/', $this->password))
+        {
             return true;
         }
+
+        else return false;
     }
 }
