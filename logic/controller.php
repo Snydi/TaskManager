@@ -14,16 +14,16 @@ if (isset($_POST["submitRegister"]))
 {
     $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
     $user = new UserManager($db);
+
     if ($user->emptyInput($_POST["email"],$_POST["password"]))
     {
         header("Location: ../pages/authPage.php?autherror=Not all of fields are filled.");
     }
     else if ($user->invalidEmail($_POST["email"]))
     {
-
         header("Location: ../pages/authPage.php?&autherror=Invalid email.");
     }
-    else if ($user->invalidPassword())
+    else if ($user->invalidPassword($_POST["password"]))
     {
         header("Location: ../pages/authPage.php?autherror=Password must be at least 8 characters long, have numbers in it");
     }

@@ -49,17 +49,18 @@ class UserManager
     }
 
     public function wrongEmailOrPassword($email,$password): bool
-
     {
+        //checks if user logins using right
+        // combination of credentials
         $userInfo = $this->getUserInfoByEmail($email);
-        return password_verify($userInfo["password"],$password);
+        return password_verify($userInfo["password"], password_hash($password, PASSWORD_DEFAULT));
     }
 
     public function invalidEmail($email): bool // function checks if user has a valid email using this monstrosity
     {
         $userInfo = $this->getUserInfoByEmail($email);
 
-        if (!preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
+        if (preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22
                             (?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))
@@ -75,15 +76,13 @@ class UserManager
                             |(?:[1-9]?[0-9]))){3}))\]))$/iD',
         $userInfo["email"]) == 1) return true;
         else return false;
-
     }
-    public function invalidPassword(): bool // works wrong probably
+    public function invalidPassword($password): bool //password has to be at least chars long and have numbers
     {
-        if (!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^& +=§!\?]{7,100}$/', $this->password))
+        if (!preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/', $password))
         {
             return true;
         }
-
         else return false;
     }
 }
