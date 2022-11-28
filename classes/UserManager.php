@@ -1,28 +1,24 @@
 <?php
-require_once 'MyPDO.php';
 class UserManager
 {
-    private string $email;
-    private string $password;
     protected PDO $db;
 
-    public function __construct(PDO $db,$emailPOST = " ",$passwordPOST = " ") //takes POST data as parameters and immediately hashes password
+    public function __construct(PDO $db)
     {
         $this->db = $db;
-        $this->email = $emailPOST;
-        $this->password = password_hash($passwordPOST, PASSWORD_DEFAULT);
     }
-    public function registerUser(): string
+    public function registerUser($email,$password): string
     {
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $this->db->prepare("INSERT INTO users (id, email, password) VALUES (NULL, ? , ?)");
-        $stmt->execute([$this->email,$this->password]);
+        $stmt->execute([$email,$password]);
         return $this->db->lastInsertId();
     }
-    public function removeUserAccount() //function is not yet complete nor used
-    {
-        $query = "DELETE FROM users WHERE id = $this->id";
-        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-    }
+//    public function removeUserAccount() //function is not yet complete nor used
+//    {
+//        $query = "DELETE FROM users WHERE id = $this->id";
+//        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
+//    }
     public function getUserInfoById($id)
     {
         $stmt =$this->db->prepare("SELECT * FROM users WHERE id = ?");
@@ -36,30 +32,30 @@ class UserManager
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     //The following functions are needed for error-checking during authentication
-    public function userExists(): bool
+    public function userExists($email): bool
     {
         $stmt = $this->db->prepare("SELECT email FROM users as email WHERE email = ?");
-        $stmt->execute([$this->email]);
+        $stmt->execute([$email]);
         $queryResult = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $queryResult["email"] === $this->email;
+        return $queryResult["email"] === $email;
     }
-    public function emptyInput(): bool
+    public function emptyInput($email,$password): bool
     {
-        if (($this->email === '') ||($this->password === '') )
+        if (($email === '') ||($password === ''))
         {
             return true;
         }
         else return false;
     }
-    public function wrongEmailOrPassword(): bool
+    public function wrongEmailOrPassword($email,$password): bool
     {
-        $userInfo = $this->getUserInfoByEmail($this->email);
-        return password_verify($userInfo["password"],$this->password);
+        $userInfo = $this->getUserInfoByEmail($email);
+        return password_verify($userInfo["password"],$password);
     }
-    public function invalidEmail(): bool // function checks if user has a valid email using this monstrosity
+    public function invalidEmail($email): bool // function checks if user has a valid email using this monstrosity
     {
-        $userInfo = $this->getUserInfoByEmail($this->email);
-        if (preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
+        $userInfo = $this->getUserInfoByEmail($email);
+        if (!preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?))
                             {65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22
                             (?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))

@@ -13,22 +13,22 @@ if (isset($_SESSION))
 if (isset($_POST["submitRegister"]))
 {
     $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
-    $user = new UserManager($db, $_POST["email"], $_POST["password"]);
-    if ($user->emptyInput())
+    $user = new UserManager($db);
+    if ($user->emptyInput($_POST["email"],$_POST["password"]))
     {
         header("Location: ../pages/authPage.php?autherror=Not all of fields are filled.");
     }
-//    else if ($user->invalidEmail())
-//    {
-//        header("Location: ../pages/authPage.php?autherror=Invalid email.");
-//    }
-    else if ($user->userExists())
+    else if ($user->invalidEmail($_POST["email"]))
+    {
+        header("Location: ../pages/authPage.php?autherror=Invalid email.");
+    }
+    else if ($user->userExists($_POST["email"]))
     {
         header("Location: ../pages/authPage.php?autherror=User already exists.");
     }
     else
     {
-        $id = $user->registerUser();
+        $id = $user->registerUser($_POST["email"],$_POST["password"]);
         session_start();
         $_SESSION["userId"] = $id;
         header("Location: ../pages/home.php");
@@ -39,15 +39,15 @@ if(isset($_POST["submitLogin"]))
     $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
     $user = new UserManager($db, $_POST["email"], $_POST["email"]);
 
-    if ($user->emptyInput())
+    if ($user->emptyInput($_POST["email"],$_POST["password"]))
     {
         //$_GET["login] = true here because we need to stay on login page
         header("Location: ../pages/authPage.php?login=true&autherror=Not all of fields are filled.");
     }
-//    else if ($user->wrongEmailOrPassword())
-//    {
-//        header("Location: ../pages/authPage.php?login=true&autherror=Wrong email or password.");
-//    }
+    else if ($user->wrongEmailOrPassword($_POST["email"],$_POST["password"]))
+    {
+        header("Location: ../pages/authPage.php?login=true&autherror=Wrong email or password.");
+    }
     else
     {
     session_start();
@@ -58,25 +58,26 @@ if(isset($_POST["submitLogin"]))
 if(isset($_POST["addTask"]))
 {
     session_start();
-    $user = unserialize($_SESSION["user"]); //retrieving the object
-    $userInfo = $user->getUserInfo();
+    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
+    $user = new UserManager($db);
+    $taskManager= new TaskManager($db);
 
-    $task = mysqli_real_escape_string(Database::connection(),$_POST["task"]);
-
-    $taskManager= new TaskManager();
-    $taskManager->addTask( $userInfo["id"],$task);
+    $userInfo = $user->getUserInfoByEmail($_SESSION["userEmail"]);
+    $taskManager->addTask($userInfo["id"],$_POST["task"]);
     header("Location: ../pages/home.php");
 
 }
 if (isset($_GET["deleteTaskId"])) //if user tries to delete a task
 {
-    $taskManager= new TaskManager();
+    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
+    $taskManager= new TaskManager($db);
     $taskManager->deleteTask($_GET["deleteTaskId"]);
     header("Location: ../pages/home.php");
 }
 if (isset($_GET["completeTaskId"])) //if user considers task done.
 {
-    $taskManager = new TaskManager();
+    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
+    $taskManager = new TaskManager($db);
     $taskManager->changeTaskStatus($_GET["completeTaskId"],'Done');
     header("Location: ../pages/home.php");
 }
