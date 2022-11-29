@@ -3,7 +3,7 @@ require_once '../header.php';
 require_once "../logic/controller.php";
 ?>
 <div class="task__content">
-<H1 class="text-center">Tasks</H1>
+                                    <H1 class="text-center">Tasks</H1>
 <?php if (isset($_SESSION["userEmail"])) {?>
 
     <form class="container text-center form w-25" action="../logic/controller.php" method = "POST">
@@ -37,8 +37,8 @@ require_once "../logic/controller.php";
                         echo '<tr>';
                         echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
                         echo '<td>' . htmlspecialchars($item["status"]) . '</td>';
-                        echo '<td>' . '<a type="button"  class="btn btn-success" href ="?completeTaskId=' . htmlspecialchars($item['id']) . '">Done</a>' . '</td>';
-                        echo '<td>' . '<a type="button" onclick="return deletionCheck()" class="btn btn-danger delete" href ="?deleteTaskId=' . htmlspecialchars($item['id']) . '">Delete</a>' . '</td>';
+                        echo '<td>' . '<a type="button"  class="btn btn-success" href ="?completeTaskId='. urlencode($item['id']).'">Done</a>' . '</td>';
+                        echo '<td>' . '<a type="button" onclick="return deletionCheck()" class="btn btn-danger delete" href ="?deleteTaskId=' . urlencode($item['id']) . '">Delete</a>' . '</td>';
                         echo '</tr>' . " ";
                     }
                 }

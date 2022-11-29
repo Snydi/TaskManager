@@ -12,11 +12,13 @@ require_once "../logic/controller.php";
     <?php }?>
 
     <label class="form-label row">
-        <input class="form-control" name="email" placeholder="Email:" type="text" value="<?= $_POST['email'] ?? '' ?>" >
+        <input class="form-control" name="email" placeholder="Email:" type="text"
+               value="<?= $_POST['email'] ?? '' ?>" >
     </label>
 
     <label class="form-label row">
-        <input class="form-control" name="password" placeholder="Password:" type="password" value="<?= $_POST['password'] ?? '' ?>" >
+        <input class="form-control" name="password" placeholder="Password:" type="password"
+               value="<?= $_POST['password'] ?? '' ?>" >
     </label>
 
 <?php if (isset($_GET["login"])) { ?>

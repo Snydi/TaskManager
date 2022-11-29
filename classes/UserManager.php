@@ -14,17 +14,6 @@ class UserManager
         $stmt->execute([$email,$password]);
         return $this->db->lastInsertId();
     }
-//    public function removeUserAccount() //function is not yet complete nor used
-//    {
-//        $query = "DELETE FROM users WHERE id = $this->id";
-//        mysqli_query(Database::connection(), $query) or die(mysqli_error(Database::connection()));
-//    }
-    public function getUserInfoById($id)
-    {
-        $stmt =$this->db->prepare("SELECT * FROM users WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
     public function getUserInfoByEmail($email)
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
@@ -47,7 +36,6 @@ class UserManager
         }
         else return false;
     }
-
     public function wrongEmailOrPassword($email,$password): bool
     {
         //checks if user logins using right
@@ -55,7 +43,6 @@ class UserManager
         $userInfo = $this->getUserInfoByEmail($email);
         return !password_verify($password, $userInfo["password"]);
     }
-
     public function invalidEmail($email): bool // function checks if user has a valid email using this monstrosity
     {
         $userInfo = $this->getUserInfoByEmail($email);

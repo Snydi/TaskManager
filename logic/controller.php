@@ -4,7 +4,7 @@ require_once '../classes/TaskManager.php';
 
 $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
 
-if (isset($_SESSION))
+if (isset($_SESSION["userEmail"]))
 {
     $user = new UserManager($db);
     $userInfo = $user->getUserInfoByEmail($_SESSION["userEmail"]);
@@ -33,9 +33,9 @@ if (isset($_POST["submitRegister"]))
     }
     else
     {
-        $id = $user->registerUser($_POST["email"],$_POST["password"]);
+        $user->registerUser($_POST["email"],$_POST["password"]);
         session_start();
-        $_SESSION["userId"] = $id;
+        $_SESSION["userEmail"] = $_POST["email"];
         header("Location: ../pages/home.php");
     }
 }

@@ -10,8 +10,6 @@ html{
     background: #0d6efd;
 }
 .header:active{
-    
-    background-image: url("images/URXL_VYlyks.jpg");
     background-size: contain;
 }
 .header__content
@@ -19,7 +17,7 @@ html{
     display:flex;
     justify-content: flex-start;
     align-items: center;
-    padding:10px 0px;
+    padding:10px 0;
 }
 .header__link{
     color:black;
@@ -36,7 +34,6 @@ a:hover {
 text-decoration: none;
 color:red !important;
 transition: all 0.5s;
-transform: rotate(720deg);
 }
 a:active { text-decoration: none; }
 .task__content{
