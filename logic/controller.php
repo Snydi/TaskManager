@@ -2,9 +2,10 @@
 require_once '../classes/UserManager.php';
 require_once '../classes/TaskManager.php';
 
+$db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
+
 if (isset($_SESSION))
 {
-    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
     $user = new UserManager($db);
     $userInfo = $user->getUserInfoByEmail($_SESSION["userEmail"]);
     $taskManager = new TaskManager($db);
@@ -12,7 +13,6 @@ if (isset($_SESSION))
 }
 if (isset($_POST["submitRegister"]))
 {
-    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
     $user = new UserManager($db);
 
     if ($user->emptyInput($_POST["email"],$_POST["password"]))
@@ -41,8 +41,7 @@ if (isset($_POST["submitRegister"]))
 }
 if(isset($_POST["submitLogin"]))
 {
-    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
-    $user = new UserManager($db, $_POST["email"], $_POST["email"]);
+    $user = new UserManager($db);
 
     if ($user->emptyInput($_POST["email"],$_POST["password"]))
     {
@@ -63,25 +62,21 @@ if(isset($_POST["submitLogin"]))
 if(isset($_POST["addTask"]))
 {
     session_start();
-    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
     $user = new UserManager($db);
     $taskManager= new TaskManager($db);
 
     $userInfo = $user->getUserInfoByEmail($_SESSION["userEmail"]);
     $taskManager->addTask($userInfo["id"],$_POST["task"]);
     header("Location: ../pages/home.php");
-
 }
 if (isset($_GET["deleteTaskId"])) //if user tries to delete a task
 {
-    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
     $taskManager= new TaskManager($db);
     $taskManager->deleteTask($_GET["deleteTaskId"]);
     header("Location: ../pages/home.php");
 }
 if (isset($_GET["completeTaskId"])) //if user considers task done.
 {
-    $db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
     $taskManager = new TaskManager($db);
     $taskManager->changeTaskStatus($_GET["completeTaskId"],'Done');
     header("Location: ../pages/home.php");

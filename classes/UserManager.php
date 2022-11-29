@@ -53,7 +53,7 @@ class UserManager
         //checks if user logins using right
         // combination of credentials
         $userInfo = $this->getUserInfoByEmail($email);
-        return password_verify($userInfo["password"], password_hash($password, PASSWORD_DEFAULT));
+        return !password_verify($password, $userInfo["password"]);
     }
 
     public function invalidEmail($email): bool // function checks if user has a valid email using this monstrosity
