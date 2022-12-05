@@ -28,13 +28,17 @@ require_once "../logic/controller.php";
             </tr>
             </thead>
             <tbody>
-            <tr>
+
                 <?php
                 if(isset($tasks))
                 {
                     foreach ($tasks as $item )
                     {
-                        echo '<tr>';
+                        if ($item["status"] == "Done")
+                            {
+                                echo '<tr class = "taskComplete">';
+                            }
+                        else echo '<tr>';
                         echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
                         echo '<td>' . htmlspecialchars($item["status"]) . '</td>';
                         echo '<td>' . '<a type="button"  class="btn btn-success" href ="?completeTaskId='. urlencode($item['id']).'">Done</a>' . '</td>';
@@ -43,7 +47,7 @@ require_once "../logic/controller.php";
                     }
                 }
                 ?>
-            </tr>
+
             </tbody>
         </table>
     </div>

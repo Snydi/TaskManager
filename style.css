@@ -44,3 +44,7 @@ a:active { text-decoration: none; }
     margin:auto;
     max-width: 1200px;
 }
+.taskComplete{
+    background: lawngreen;
+
+}
