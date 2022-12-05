@@ -75,10 +75,10 @@ if (isset($_GET["deleteTaskId"])) //if user tries to delete a task
     $taskManager->deleteTask($_GET["deleteTaskId"]);
     header("Location: ../pages/home.php");
 }
-if (isset($_GET["completeTaskId"])) //if user considers task done.
+if (isset($_GET["taskId"]) && isset($_GET["taskStatus"]) ) //if user changes status of a task
 {
     $taskManager = new TaskManager($db);
-    $taskManager->changeTaskStatus($_GET["completeTaskId"],'Done');
+    $taskManager->changeTaskStatus($_GET["taskId"],$_GET["taskStatus"]);
     header("Location: ../pages/home.php");
 }
 

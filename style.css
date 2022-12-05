@@ -45,6 +45,8 @@ a:active { text-decoration: none; }
     max-width: 1200px;
 }
 .taskComplete{
-    background: lawngreen;
-
+    background-color: limegreen;
+}
+.taskOnHold {
+    background-color: limegreen;
 }

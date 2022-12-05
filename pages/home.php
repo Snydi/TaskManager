@@ -38,10 +38,15 @@ require_once "../logic/controller.php";
                             {
                                 echo '<tr class = "taskComplete">';
                             }
+                        else if ($item["status"] == "On hold")
+                        {
+                            echo '<tr class = "taskOnHold">';
+                        }
                         else echo '<tr>';
                         echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
                         echo '<td>' . htmlspecialchars($item["status"]) . '</td>';
-                        echo '<td>' . '<a type="button"  class="btn btn-success" href ="?completeTaskId='. urlencode($item['id']).'">Done</a>' . '</td>';
+                        echo '<td>' . '<a type="button"  class="btn btn-success" href ="?taskId='. urlencode($item['id']).'&taskStatus=Done">Done</a>' . '</td>';
+                        echo '<td>' . '<a type="button"  class="btn btn-secondary" href ="?taskId='. urlencode($item['id']).'&taskStatus=In progress">In progress</a>' . '</td>';
                         echo '<td>' . '<a type="button" onclick="return deletionCheck()" class="btn btn-danger delete" href ="?deleteTaskId=' . urlencode($item['id']) . '">Delete</a>' . '</td>';
                         echo '</tr>' . " ";
                     }
