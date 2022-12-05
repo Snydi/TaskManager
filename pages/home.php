@@ -9,7 +9,11 @@ require_once "../logic/controller.php";
     <form class="container text-center form w-25" action="../logic/controller.php" method = "POST">
 
         <label class="form-label row">
-          <textarea class="form-control" name="task" placeholder="Task:" > </textarea>
+          <textarea class="form-control" name="task" > </textarea>
+        </label>
+
+        <label class="form-label ">
+        <input type="date"  name="deadline" value="2018-07-22" min="2018-01-01" max="2018-12-31">
         </label>
 
         <input type="submit" name="addTask"  value="Add task" class="btn btn-success"">
@@ -23,6 +27,7 @@ require_once "../logic/controller.php";
             <tr>
                 <th scope="col">Task</th>
                 <th scope="col">Status</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
