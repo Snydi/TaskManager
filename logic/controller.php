@@ -66,7 +66,7 @@ if(isset($_POST["addTask"]))
     $taskManager= new TaskManager($db);
 
     $userInfo = $user->getUserInfoByEmail($_SESSION["userEmail"]);
-    $taskManager->addTask($userInfo["id"],$_POST["task"]);
+    $taskManager->addTask($userInfo["id"],$_POST["task"],$_POST["deadline"]);
     header("Location: ../pages/home.php");
 }
 if (isset($_GET["deleteTaskId"])) //if user tries to delete a task

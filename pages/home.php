@@ -13,7 +13,7 @@ require_once "../logic/controller.php";
         </label>
 
         <label class="form-label ">
-        <input type="date"  name="deadline" value="2018-07-22" min="2018-01-01" max="2018-12-31">
+        <input type="date"  name="deadline" value="<?= date("Y.m.d") ?>"  ">
         </label>
 
         <input type="submit" name="addTask"  value="Add task" class="btn btn-success"">
@@ -26,6 +26,7 @@ require_once "../logic/controller.php";
             <thead>
             <tr>
                 <th scope="col">Task</th>
+                <th scope="col">Deadline</th>
                 <th scope="col">Status</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -35,6 +36,7 @@ require_once "../logic/controller.php";
             <tbody>
 
                 <?php
+                echo date("Y.m.d");
                 if(isset($tasks))
                 {
                     foreach ($tasks as $item )
@@ -49,6 +51,7 @@ require_once "../logic/controller.php";
                         }
                         else echo '<tr>';
                         echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
+                        echo '<td>' . htmlspecialchars($item["deadline"]) . '</td>';
                         echo '<td>' . htmlspecialchars($item["status"]) . '</td>';
                         echo '<td>' . '<a type="button"  class="btn btn-success" href ="?taskId='. urlencode($item['id']).'&taskStatus=Done">Done</a>' . '</td>';
                         echo '<td>' . '<a type="button"  class="btn btn-secondary" href ="?taskId='. urlencode($item['id']).'&taskStatus=In progress">In progress</a>' . '</td>';

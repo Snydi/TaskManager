@@ -12,10 +12,10 @@ class TaskManager
         $stmt->execute([$id]);
         return $stmt;
     }
-    public function addTask($id,$task)
+    public function addTask($id,$task,$deadline)
     {
-        $stmt = $this->db->prepare("INSERT INTO tasks (user_id, task, status) VALUES( ?, ? ,'In progress')");
-        $stmt->execute([$id,$task]);
+        $stmt = $this->db->prepare("INSERT INTO tasks (user_id, task, status, deadline) VALUES( ?, ? ,'In progress', ?)");
+        $stmt->execute([$id,$task, $deadline]);
     }
     public function deleteTask($id)
     {
