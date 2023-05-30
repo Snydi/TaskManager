@@ -64,7 +64,7 @@ class UserManager
         $userInfo["email"]) == 1) return true;
         else return false;
     }
-    public function invalidPassword($password): bool //password has to be at least chars long and have numbers
+    public function invalidPassword($password): bool //password has to be at least 8 chars long and have numbers
     {
         if (!preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/', $password))
         {

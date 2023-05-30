@@ -2,7 +2,13 @@
 require_once '../classes/UserManager.php';
 require_once '../classes/TaskManager.php';
 
-$db = new PDO('mysql:host=localhost;dbname=snydi_site_db;','root');
+$config = include '../config.php'; //this file is in gitignore
+
+$db = new PDO(
+    'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'],
+    $config['database']['username'],
+    $config['database']['password']
+);
 
 if (isset($_SESSION["userEmail"]))
 {
