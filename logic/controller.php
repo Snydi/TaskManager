@@ -1,6 +1,6 @@
 <?php
-require_once '../classes/UserManager.php';
-require_once '../classes/TaskManager.php';
+require_once '../classes/User.php';
+require_once '../classes/Task.php';
 
 $config = include '../config.php'; //this file is in gitignore
 
@@ -12,14 +12,14 @@ $db = new PDO(
 
 if (isset($_SESSION["userEmail"]))
 {
-    $user = new UserManager($db);
+    $user = new User($db);
     $userInfo = $user->getUserInfoByEmail($_SESSION["userEmail"]);
-    $taskManager = new TaskManager($db);
+    $taskManager = new Task($db);
     $tasks = $taskManager->getTasks($userInfo["id"]);
 }
 if (isset($_POST["submitRegister"]))
 {
-    $user = new UserManager($db);
+    $user = new User($db);
 
     if ($user->emptyInput($_POST["email"],$_POST["password"]))
     {
@@ -47,7 +47,7 @@ if (isset($_POST["submitRegister"]))
 }
 if(isset($_POST["submitLogin"]))
 {
-    $user = new UserManager($db);
+    $user = new User($db);
 
     if ($user->emptyInput($_POST["email"],$_POST["password"]))
     {
@@ -68,8 +68,8 @@ if(isset($_POST["submitLogin"]))
 if(isset($_POST["addTask"]))
 {
     session_start();
-    $user = new UserManager($db);
-    $taskManager= new TaskManager($db);
+    $user = new User($db);
+    $taskManager= new Task($db);
 
     $userInfo = $user->getUserInfoByEmail($_SESSION["userEmail"]);
     $taskManager->addTask($userInfo["id"],$_POST["task"],$_POST["deadline"]);
@@ -77,13 +77,13 @@ if(isset($_POST["addTask"]))
 }
 if (isset($_GET["deleteTaskId"])) //if user tries to delete a task
 {
-    $taskManager= new TaskManager($db);
+    $taskManager= new Task($db);
     $taskManager->deleteTask($_GET["deleteTaskId"]);
     header("Location: ../pages/home.php");
 }
 if (isset($_GET["taskId"]) && isset($_GET["taskStatus"]) ) //if user changes status of a task
 {
-    $taskManager = new TaskManager($db);
+    $taskManager = new Task($db);
     $taskManager->changeTaskStatus($_GET["taskId"],$_GET["taskStatus"]);
     header("Location: ../pages/home.php");
 }

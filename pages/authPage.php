@@ -1,5 +1,5 @@
 <?php
-require_once "../header.php";
+require_once "../components/header.php";
 require_once "../logic/controller.php";
 ?>
                                             <h3 class="text-center"><?= $_GET["autherror"] ?? ''?></h3>

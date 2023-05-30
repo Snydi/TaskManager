@@ -1,5 +1,5 @@
 <?php
-class TaskManager
+class Task
 {
     protected PDO $db;
     public function __construct(PDO $db)

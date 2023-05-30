@@ -1,5 +1,5 @@
 <?php
-class UserManager
+class User
 {
     protected PDO $db;
 

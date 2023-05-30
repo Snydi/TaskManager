@@ -1,5 +1,5 @@
 <?php
-require_once '../header.php';
+require_once '../components/header.php';
 require_once "../logic/controller.php";
 ?>
 <div class="task__content">
@@ -36,7 +36,6 @@ require_once "../logic/controller.php";
             <tbody>
 
                 <?php
-                echo date("Y.m.d");
                 if(isset($tasks))
                 {
                     foreach ($tasks as $item )
