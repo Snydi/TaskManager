@@ -2,31 +2,32 @@
 require_once "../components/header.php";
 require_once "../logic/controller.php";
 ?>
-                                            <h3 class="text-center"><?= $_GET["autherror"] ?? ''?></h3>
-<div class="task__content">
-<form class="container text-center form w-25" action="../logic/controller.php" method = "POST">
-<?php if (isset($_GET["login"])) { ?>
-                                            <h1>Login</h1>
-<?php } else { ?>
-                                            <h1>Register</h1>
-    <?php }?>
 
-    <label class="form-label row">
-        <input class="form-control" name="email" placeholder="Email:" type="text"
+
+
+<?php if (isset($_GET["login"])) { ?>
+                                            <h1 class="text-center">Login</h1>
+<?php } else { ?>
+                                            <h1 class="text-center">Register</h1>
+    <?php }?>
+    <form class="auth__form form__flex" action="../logic/controller.php" method = "POST">
+    <label>
+        <input class="form__input" name="email" placeholder="Email:" type="text"
                value="<?= $_POST['email'] ?? '' ?>" >
     </label>
 
-    <label class="form-label row">
-        <input class="form-control" name="password" placeholder="Password:" type="password"
+    <label>
+        <input class="form__input" name="password" placeholder="Password:" type="password"
                value="<?= $_POST['password'] ?? '' ?>" >
     </label>
 
 <?php if (isset($_GET["login"])) { ?>
-    <input type="submit" name="submitLogin"  value="Login" class="btn btn-success">
+    <input type="submit" name="submitLogin"  value="Login" class="button bd__green">
 <?php } else { ?>
-    <input type="submit" name="submitRegister"  value="Register" class="btn btn-success">
+    <input type="submit" name="submitRegister"  value="Register" class="button bd__green">
     <?php }?>
 </form>
-</div>
+    <h3 class="text-center"><?= $_GET["autherror"] ?? ''?></h3>
+
 <?php
-require_once "../footer.php";
+require_once '../components/footer.php';

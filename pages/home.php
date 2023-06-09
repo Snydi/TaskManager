@@ -2,69 +2,60 @@
 require_once '../components/header.php';
 require_once "../logic/controller.php";
 ?>
+<div class="wrapper">
 <div class="task__content">
-                                    <H1 class="text-center">Tasks</H1>
+                                    <H1>Tasks</H1>
 <?php if (isset($_SESSION["userEmail"])) {?>
 
-    <form class="container text-center form w-25" action="../logic/controller.php" method = "POST">
+    <form  action="../logic/controller.php" method = "POST">
 
-        <label class="form-label row">
-          <textarea class="form-control" name="task" > </textarea>
+        <label>
+          <textarea name="task"> </textarea>
         </label>
 
-        <label class="form-label ">
+        <label>
         <input type="date"  name="deadline" value="<?= date("Y.m.d") ?>"  ">
         </label>
 
-        <input type="submit" name="addTask"  value="Add task" class="btn btn-success"">
+        <input type="submit" name="addTask"  value="Add task" class="button bd__green" style="border: none">
     </form>
 
 </div>
-    <div class="main py-5" >
-    <div class="container text-center mt-3" >
-        <table class="table" >
-            <thead>
-            <tr>
-                <th scope="col">Task</th>
-                <th scope="col">Deadline</th>
-                <th scope="col">Status</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
 
-                <?php
-                if(isset($tasks))
-                {
-                    foreach ($tasks as $item )
-                    {
-                        if ($item["status"] == "Done")
-                            {
-                                echo '<tr class = "taskComplete">';
-                            }
-                        else if ($item["status"] == "On hold")
-                        {
-                            echo '<tr class = "taskOnHold">';
-                        }
-                        else echo '<tr>';
-                        echo '<td>' . htmlspecialchars($item["task"]) . '</td>';
-                        echo '<td>' . htmlspecialchars($item["deadline"]) . '</td>';
-                        echo '<td>' . htmlspecialchars($item["status"]) . '</td>';
-                        echo '<td>' . '<a type="button"  class="btn btn-success" href ="?taskId='. urlencode($item['id']).'&taskStatus=Done">Done</a>' . '</td>';
-                        echo '<td>' . '<a type="button"  class="btn btn-secondary" href ="?taskId='. urlencode($item['id']).'&taskStatus=In progress">In progress</a>' . '</td>';
-                        echo '<td>' . '<a type="button" onclick="return deletionCheck()" class="btn btn-danger delete" href ="?deleteTaskId=' . urlencode($item['id']) . '">Delete</a>' . '</td>';
-                        echo '</tr>' . " ";
-                    }
-                }
-                ?>
-
-            </tbody>
-        </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Controls</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+         <?php
+         if(isset($tasks)) {
+             foreach ($tasks as $item ) {
+                 if ($item["status"] == "Done") {
+                     echo '<tr class = "taskComplete">';
+                 }
+                 else echo '<tr>';
+                 echo '<td class="td__text text-center">' . htmlspecialchars($item["task"]) . '</td>';
+                 echo '<td class="td__text text-center">' . htmlspecialchars($item["deadline"]) . '</td>';
+                 echo '<td class="td__text text-center">' . htmlspecialchars($item["status"]) . '</td>';
+                 echo '<td> <a type="button" class="button bd__green" href ="?taskId='. urlencode($item['id']).'&taskStatus=Done">Done</a>' ;
+                 echo '<a type="button"  class="button bd__yellow" href ="?taskId='. urlencode($item['id']).'&taskStatus=In progress">In progress</a>';
+                 echo '<a type="button" onclick="return deletionCheck()" class="button bd__red" href ="?deleteTaskId=' . urlencode($item['id']) . '">Delete</a>' . '</td>';
+                 echo '</tr>' . " ";
+             }
+         }
+         ?>
+        </tr>
+        </tbody>
+    </table>
     </div>
 <?php
 } else {
-    require_once '../footer.php';
+    require_once '../components/footer.php';
 }
 
