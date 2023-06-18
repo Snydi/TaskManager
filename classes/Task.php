@@ -17,6 +17,11 @@ class Task
         $stmt = $this->db->prepare("INSERT INTO tasks (user_id, task, status, deadline) VALUES( ?, ? ,'In progress', ?)");
         $stmt->execute([$id,$task, $deadline]);
     }
+    public function editTask($id, $task, $deadline, $status)
+    {
+        $stmt = $this->db->prepare("UPDATE tasks SET task = ?, deadline = ?, status = ? WHERE id = ?");
+        $stmt->execute([$task, $deadline, $status, $id]);
+    }
     public function deleteTask($id)
     {
         $stmt = $this->db->prepare("DELETE FROM tasks WHERE id = ?");

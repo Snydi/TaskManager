@@ -75,6 +75,13 @@ if(isset($_POST["addTask"]))
     $taskManager->addTask($userInfo["id"],$_POST["task"],$_POST["deadline"]);
     header("Location: ../pages/home.php");
 }
+if (isset($_POST["Update"])) //if user tries to edit a task
+{
+
+   $taskManager= new Task($db);
+   $taskManager->editTask($_GET["taskId"], $_POST['task'],$_POST['deadline'],$_POST['status']);
+   header("Location: ../pages/home.php");
+}
 if (isset($_GET["deleteTaskId"])) //if user tries to delete a task
 {
     $taskManager= new Task($db);

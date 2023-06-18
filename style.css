@@ -69,7 +69,10 @@ a:active { text-decoration: none; }
     background: rgb(59, 170, 29);
 }
 .bd__yellow{
-    background: #bdbc02;
+    background: #d5d407;
+}
+.bd__blue{
+    background: #0d6dfc;
 }
 table{
     width: 1200px;
@@ -115,3 +118,5 @@ input[type=submit]:hover{
     display:flex;
     flex-direction: column;
 }
+
+
