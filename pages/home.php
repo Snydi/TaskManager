@@ -22,9 +22,23 @@ require_once "../logic/controller.php";
     </form>
 
 </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Deadline</th>
+            <th>Controls</th>
+        </tr>
+        <tbody>
+        <tr>
+
+        </tr>
+        </tbody>
+        </thead>
+    </table>
+
 
     <table class="table">
-
         <thead>
         <tr>
             <th>Task</th>
@@ -45,10 +59,9 @@ require_once "../logic/controller.php";
                  else echo '<tr>'; ?>
 
                  <form method="post" action="../logic/controller.php?taskId=<?=urlencode($item['id'])?>">
-
-                 <td class="td__text text-center"> <input type="text" name="task" value="<?= htmlspecialchars($item["task"]) ?>">  </td>
-                 <td class="td__text text-center"> <input type="date" name="deadline" value="<?= htmlspecialchars($item["deadline"]) ?>"> </td>
-                 <td class="td__text text-center"> <input type="text" name="status" value="<?= htmlspecialchars($item["status"]) ?>"> </td>
+                 <td class="td__text text-center"> <input class="task__input" type="text" name="task" value="<?= htmlspecialchars($item["task"]) ?>">  </td>
+                 <td class="td__text text-center"> <input class="task__input" type="date" name="deadline" value="<?= htmlspecialchars($item["deadline"]) ?>"> </td>
+                 <td class="td__text text-center"> <input class="task__input" type="text" name="status" value="<?= htmlspecialchars($item["status"]) ?>"> </td>
                  <td> <a type="button" class="button bd__green" href ="?taskId=<?=urlencode($item['id'])?>&taskStatus=Done">Done</a>
                  <a type="button"  class="button bd__yellow" href ="?taskId=<?=urlencode($item['id'])?>&taskStatus=In progress">In progress</a>
                      <input type="submit" name="Update"  value="Update" class="button bd__blue">

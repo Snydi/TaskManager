@@ -102,6 +102,7 @@ table{
 input[type=submit]{
     border: none;
 }
+
 input[type=submit]:hover{
     color: #12ffff;
     transition: all 0.5s;
@@ -119,4 +120,9 @@ input[type=submit]:hover{
     flex-direction: column;
 }
 
-
+.task__input{
+    border:none;
+}
+input[type="text"], input[type="password"], input[type="date"], textarea, select {
+    outline: none;
+}
